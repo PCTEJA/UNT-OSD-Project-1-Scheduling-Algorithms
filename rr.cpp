@@ -1,7 +1,7 @@
 #include "time_reader.h"
 
 const int TIME_QUANTUM = 10;
-
+// This function implements the Round-Robin scheduling algorithm
 void schedule_rr(std::vector<Task>& tasks) {
     std::queue<int> ready_queue;
     for (int i = 0; i < tasks.size(); ++i) {
@@ -10,7 +10,7 @@ void schedule_rr(std::vector<Task>& tasks) {
 
     int current_time = 0;
     int tasks_remaining = tasks.size();
-
+    // Initialize remaining burst times
     while (tasks_remaining > 0) {
         int task_index = ready_queue.front();
         ready_queue.pop();
@@ -22,7 +22,7 @@ void schedule_rr(std::vector<Task>& tasks) {
         }
 
         int time_slice = std::min(TIME_QUANTUM, current_task.RB);
-        
+        // Advance time
         current_time += time_slice;
         current_task.RB -= time_slice;
 
@@ -33,7 +33,7 @@ void schedule_rr(std::vector<Task>& tasks) {
             ready_queue.push(task_index);
         }
     }
-    
+    // Iterate through tasks to calculate TT, RT, WT
     for (auto& task : tasks) {
         task.TT = task.CT;
         task.RT = task.ST;
@@ -42,6 +42,7 @@ void schedule_rr(std::vector<Task>& tasks) {
 }
 
 int main(int argc, char* argv[]) {
+    // This checks for the schedule file argument name
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <schedule_file.txt>" << std::endl;
         return 1;
@@ -49,7 +50,7 @@ int main(int argc, char* argv[]) {
 
     std::string filename = argv[1];
     std::vector<Task> tasks = parseScheduleFile(filename);
-
+    // This prints the scheduling results header
     std::cout << "Round-Robin (RR) Scheduling Results (Quantum=10)" << std::endl;
     
     schedule_rr(tasks);

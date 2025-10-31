@@ -5,14 +5,14 @@ const int TIME_QUANTUM = 10;
 void schedule_priority_rr(std::vector<Task>& tasks) {
     // Map of queues, sorted by priority (highest first)
     std::map<int, std::queue<int>, std::greater<int>> priority_map;
-
+    // Initialize the priority map with task indices
     for (int i = 0; i < tasks.size(); ++i) {
         priority_map[tasks[i].priority].push(i);
     }
 
     int current_time = 0;
     int tasks_remaining = tasks.size();
-
+    // Continue until all tasks are completed
     while (tasks_remaining > 0) {
         auto it = priority_map.begin();
         if (it == priority_map.end()) break; 
@@ -44,7 +44,7 @@ void schedule_priority_rr(std::vector<Task>& tasks) {
             priority_map.erase(it);
         }
     }
-
+    // Calculate final metrics
     for (auto& task : tasks) {
         task.TT = task.CT;
         task.RT = task.ST;
@@ -54,6 +54,7 @@ void schedule_priority_rr(std::vector<Task>& tasks) {
 
 
 int main(int argc, char* argv[]) {
+    // Check for correct number of arguments
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <schedule_file.txt>" << std::endl;
         return 1;
@@ -61,7 +62,7 @@ int main(int argc, char* argv[]) {
 
     std::string filename = argv[1];
     std::vector<Task> tasks = parseScheduleFile(filename);
-    
+    // Then schedule using Priority with Round-Robin Header
     std::cout << "Priority with Round-Robin (PRR) Scheduling Results" << std::endl;
     
     schedule_priority_rr(tasks);

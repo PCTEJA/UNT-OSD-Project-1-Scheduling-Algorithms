@@ -38,5 +38,3 @@
 ##### Example
 ##### Running the `schedule1.txt` file using the `FCFS Scheduling algorithm` 
 `./fcfs schedules/schedule1.txt`
-
-

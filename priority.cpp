@@ -9,7 +9,7 @@ bool comparePriority(const Task& a, const Task& b) {
     return a.original_index < b.original_index;
 }
 
-
+// This function implements the Non-Preemptive Priority scheduling algorithm
 void schedule_priority(std::vector<Task>& tasks) {
     std::sort(tasks.begin(), tasks.end(), comparePriority);
 
@@ -19,7 +19,7 @@ void schedule_priority(std::vector<Task>& tasks) {
         task.ST = current_time;
         task.RT = task.ST;
         task.WT = task.ST;
-
+        // Advance current time by burst time
         current_time += task.burst;
         
         task.CT = current_time;
@@ -28,6 +28,7 @@ void schedule_priority(std::vector<Task>& tasks) {
 }
 
 int main(int argc, char* argv[]) {
+    // This checks for the schedule file argument name
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <schedule_file.txt>" << std::endl;
         return 1;
@@ -35,7 +36,7 @@ int main(int argc, char* argv[]) {
 
     std::string filename = argv[1];
     std::vector<Task> tasks = parseScheduleFile(filename);
-    
+    // This prints the scheduling results header
     std::cout << "Priority (Non-Preemptive) Scheduling Results" << std::endl;
     
     schedule_priority(tasks);

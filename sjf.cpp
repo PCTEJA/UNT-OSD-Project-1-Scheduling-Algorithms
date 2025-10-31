@@ -1,6 +1,7 @@
 #include "time_reader.h"
 
 bool compareSJF(const Task& a, const Task& b) {
+    // This compares the burst time and sorts.
     if (a.burst != b.burst) {
         return a.burst < b.burst;
     }
@@ -30,6 +31,7 @@ void schedule_sjf(std::vector<Task>& tasks) {
 }
 
 int main(int argc, char* argv[]) {
+    // This checks for the schedule file argument name
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <schedule_file.txt>" << std::endl;
         return 1;
@@ -37,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     std::string filename = argv[1];
     std::vector<Task> tasks = parseScheduleFile(filename);
-    
+    // This will output the Results Heading
     std::cout << "SJF Scheduling Results" << std::endl;
     
     schedule_sjf(tasks);
